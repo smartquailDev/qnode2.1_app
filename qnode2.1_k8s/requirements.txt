@@ -45,6 +45,6 @@ django-memcache-status
 
 #Lenguajes
 django-parler
-#django-extensions
-#django-localflavor
-#django-rosetta
+django-extensions
+django-localflavor
+django-rosetta

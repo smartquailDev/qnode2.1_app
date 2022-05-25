@@ -17,12 +17,13 @@ django-storages
 
 #Django Web App dependencies
 django-social-auth
-social-auth-app-django
+#social-auth-app-django
 sorl-thumbnail
 django-widget-tweaks
 kombu==5.2.2
-easy-thumbnails==2.8
+#easy-thumbnails==2.8
 django-thumbnails
+#reportlab
 
 
 
@@ -44,6 +45,6 @@ django-memcache-status
 
 #Lenguajes
 django-parler
-#django-extensions
-#django-localflavor
-#django-rosetta
+django-extensions
+django-localflavor
+django-rosetta
