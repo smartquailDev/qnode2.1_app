@@ -85,7 +85,6 @@ INSTALLED_APPS = [
     #'phonenumber_field',
     'storages',
     #'social_django',
-    'easy_thumbnails',
     'sorl.thumbnail',
     'students',
     'embed_video',
