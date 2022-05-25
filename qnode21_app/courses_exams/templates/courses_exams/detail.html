@@ -1,0 +1,69 @@
+{% extends "base_dash_exams.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load thumbnail %}
+
+{% block title %}
+  {{ test.title }}
+{% endblock %}
+
+{% block content %}
+  <div class="test-detail">
+
+
+    <h1>¿ Esta es su respuesta?</h1>
+    <img style="border-radius:50%; width:90px;" src="{% if test.image %}{{test.image.url }}{% else %}{% endif %}">
+    <h2><a href="{{ test.category.get_absolute_url }}">{{ test.question }}</a></h2>
+    <form action="{% url "cart:cart_add" test.id %}" method="post">
+      {{ cart_test_form }}
+      {% csrf_token %}
+      {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field }}
+      {% endfor %}
+
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+        {% for error in form.non_field_errors %}
+          {{ error }}
+        {% endfor %}
+        </div>
+      {% endif %}
+
+      {% for field in form.visible_fields %}
+        <div class="form-group">
+        <div class="group">
+        <label for="user" class="label">{{ field.label_tag }}</label>
+
+
+        {% if form.is_bound %}
+          {% if field.errors %}
+          {% render_field field class="form-control is-invalid input" %}
+          {% for error in field.errors %}
+            <div class="invalid-feedback">
+            {{ error }}
+            </div>
+          {% endfor %}
+          {% else %}
+          {% render_field field class="form-control is-valid " %}
+          {% endif %}
+        {% else %}
+          {% render_field field class="form-control input" %}
+        {% endif %}
+
+        {% if field.help_text %}
+          <small class="form-text text-muted">{{ field.help_text }}</small>
+        {% endif %}
+        </div>
+      {% endfor %}
+      <button  type="submit" value="Add to cart" class="btn btn-success btn-icon-split">
+        <span class="icon text-white-50">
+          <i class="fas fa-check"></i>
+        </span>
+        <span class="text">{% trans "Yes, Answer" %}</span>
+      </button>
+
+    </form>
+    {{ product.description|linebreaks }}
+  </div>
+{% endblock %}

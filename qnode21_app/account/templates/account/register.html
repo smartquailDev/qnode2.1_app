@@ -1,13 +1,51 @@
-{% extends "base.html" %}
+{% extends 'account/login.html'%}
+{% load static %}
+{% load widget_tweaks %}
 
 {% block title %}Create an account{% endblock %}
 
 {% block content %}
   <h1>Create an account</h1>
   <p>Please, sign up using the following form:</p>
-  <form action="." method="post">
-    {{ user_form.as_p }}
-    {% csrf_token %}
-    <p><input type="submit" value="Create my account"></p>
+
+  <form action="" method="POST">
+        {% csrf_token %}
+        {% for hidden_field in user_form.hidden_fields %}
+          {{ hidden_field }}
+        {% endfor %}
+
+        {% if user_form.non_field_errors %}
+          <div class="alert alert-danger" role="alert">
+          {% for error in user_form.non_field_errors %}
+            {{ error }}
+          {% endfor %}
+          </div>
+        {% endif %}
+        {% for field in user_form.visible_fields %}
+          <div class="form-group">
+          <div class="group">
+          <label for="user" class="label">{{ field.label_tag }}</label>
+          {% if user_form.is_bound %}
+            {% if field.errors %}
+            {% render_field field class="form-control is-invalid input" %}
+            {% for error in field.errors %}
+              <div class="invalid-feedback">
+              {{ error }}
+              </div>
+            {% endfor %}
+            {% else %}
+            {% render_field field class="user_form-control is-valid " %}
+            {% endif %}
+          {% else %}
+            {% render_field field class="user_form-control input" %}
+          {% endif %}
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+          </div>
+        {% endfor %}
+        <br>
+        <input type="submit" value="Create my account">
   </form>
+
 {% endblock %}

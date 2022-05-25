@@ -1,14 +1,94 @@
-{% extends "base.html" %}
-
-{% block title %}Edit your account{% endblock %}
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% block title %}Edit your account /   <a href="{% url "accounts:password_change" %}">change your password</a> {% endblock %}
 
 {% block content %}
   <h1>Edit your account</h1>
   <p>You can edit your account using the following form:</p>
-  <form action="." method="post" enctype="multipart/form-data">
-    {{ user_form.as_p }}
-    {{ profile_form.as_p }}
-    {% csrf_token %}
-    <p><input type="submit" value="Save changes"></p>
+
+
+  <form action="" method="POST" novalidate>
+          {% csrf_token %}
+					{% for hidden_field in form.hidden_fields %}
+					  {{ hidden_field }}
+					{% endfor %}
+
+          {% if form.errors %}
+                <p>{% trans "Your username and password didn't match. Please try again." %}</p>
+              {% else %}
+                <p></p>
+              {% endif %}
+
+          {% if form.non_field_errors %}
+					  <div class="alert alert-danger" role="alert">
+						{% for error in form.non_field_errors %}
+						  {{ error }}
+						{% endfor %}
+					  </div>
+					{% endif %}
+
+        {% for field in user_form.visible_fields %}
+        <div class="form-group">
+          <div class="input-div one">
+            <div class="i">
+              <i class="fas "></i>
+            </div>
+            <div class="div">
+              <label for="user" class="label">{{ field.label_tag }}</label>
+              {% if user_form.is_bound %}
+						  {% if field.errors %}
+							{% render_field field class="form-control is-invalid input" %}
+							{% for error in field.errors %}
+							  <div class="invalid-feedback">
+								{{ error }}
+							  </div>
+							{% endfor %}
+						  {% else %}
+							{% render_field field class="form-control is-valid " %}
+						  {% endif %}
+						{% else %}
+						  {% render_field field class="form-control input" %}
+						{% endif %}
+            {% if field.help_text %}
+						  <small class="form-text text-muted">{{ field.help_text }}</small>
+						{% endif %}
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        {% for field in profile_form.visible_fields %}
+        <div class="form-group">
+          <div class="input-div one">
+            <div class="i">
+              <i class="fas "></i>
+            </div>
+            <div class="div">
+              <label for="user" class="label">{{ field.label_tag }}</label>
+              {% if profile_form.is_bound %}
+						  {% if field.errors %}
+							{% render_field field class="form-control is-invalid input" %}
+							{% for error in field.errors %}
+							  <div class="invalid-feedback">
+								{{ error }}
+							  </div>
+							{% endfor %}
+						  {% else %}
+							{% render_field field class="form-control is-valid " %}
+						  {% endif %}
+						{% else %}
+						  {% render_field field class="form-control input" %}
+						{% endif %}
+            {% if field.help_text %}
+						  <small class="form-text text-muted">{{ field.help_text }}</small>
+						{% endif %}
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+          <input type="submit" value="Save changes">
   </form>
+
+
 {% endblock %}

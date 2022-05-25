@@ -1,4 +1,6 @@
-{% extends "base.html" %}
+{% extends "base_dash_c.html" %}
+{% load widget_tweaks %}
+{% load i18n %}
 
 {% block title %}
   {% if object %}
@@ -19,9 +21,48 @@
   <div class="module">
     <h2>Course info</h2>
     <form action="" method="post" enctype="multipart/form-data">
-      {{ form.as_p }}
-      {% csrf_token %}
-      <p><input type="submit" value="Save content"></p>
-    </form>
+      <form action="" method="POST">
+        {% csrf_token %}
+        {% for hidden_field in form.hidden_fields %}
+          {{ hidden_field }}
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger" role="alert">
+          {% for error in form.non_field_errors %}
+            {{ error }}
+          {% endfor %}
+          </div>
+        {% endif %}
+
+        {% for field in form.visible_fields %}
+          <div class="form-group">
+          <div class="group">
+          <label for="user" class="label">{{ field.label_tag }}</label>
+
+
+          {% if form.is_bound %}
+            {% if field.errors %}
+            {% render_field field class="form-control is-invalid input" %}
+            {% for error in field.errors %}
+              <div class="invalid-feedback">
+              {{ error }}
+              </div>
+            {% endfor %}
+            {% else %}
+            {% render_field field class="form-control is-valid " %}
+            {% endif %}
+          {% else %}
+            {% render_field field class="form-control input" %}
+          {% endif %}
+
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+          </div>
+        {% endfor %}
+        </form>
+        <br>
+      <button class="btn btn-primary btn-sm" type="submit" value="Save content">{% trans "Save Content" %}</button>
   </div>
 {% endblock %}

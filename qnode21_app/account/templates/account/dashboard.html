@@ -1,21 +1,10 @@
-{% extends "base.html" %}
+{% extends "base_dash.html" %}
+{% load i18n %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}{% trans "Information" %}{% endblock %}
 
 {% block content %}
-  <h1>Dashboard</h1>
+  <h1>{% trans "Driving School" %}</h1>
+  <p>{% trans "Welcome to the virtual classroom of Manejo Seguro.S.A"%}</p>
 
-  {% with total_images_created=request.user.images_created.count %}
-    <p>Welcome to your dashboard. You have bookmarked {{ total_images_created }} image{{ total_images_created|pluralize }}.</p>
-  {% endwith %}
-
-
-  <p>You can also <a href="{% url "edit" %}">edit your profile</a> or <a href="{% url "password_change" %}">change your password</a>.<p>
-  
-  <h2>What's happening</h2>
-  <div id="action-list">
-    {% for action in actions %}
-      {% include "actions/action/detail.html" %}
-    {% endfor %}
-  </div>
 {% endblock %}

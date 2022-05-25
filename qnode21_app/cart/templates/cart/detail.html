@@ -1,0 +1,85 @@
+{% extends "base_dash_c.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+{% trans "Exam Results" %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+          <div class="col-lg-12 mb-4">
+            <!-- Simple Tables -->
+            <div class="card">
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+
+                <h6 class="m-0 font-weight-bold text-primary">{% trans "Final Grade" %}: {{ cart.get_total_value }}/20</h6>
+
+                <a href="{% url "courses_exams:test_list" %}" class="btn btn-light btn-icon-split">
+                    <span class="icon text-gray-600">
+                      <i class="fas fa-arrow-left"></i>
+                    </span>
+                    <span class="text">{% trans "Try test Again" %}</span>
+                  </a>
+
+
+
+              </div>
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>{% trans "Questions" %}</th>
+                      <th>{% trans "Answers" %}r</th>
+                      <th>{% trans "Trys" %}</th>
+                      <th>{% trans "Results" %}</th>
+                      <th>{% trans "Grades" %}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in cart %}
+                      {% with test=item.test %}
+                    <tr>
+                      <td><a href="{{ test.category.get_absolute_url }}">{{ test.subject_test }}</a></td>
+                      <td>{{ test.question }}</td>
+                      <td>
+                        <form action="{% url "cart:cart_add" test.id %}" method="post">
+                          {{ item.update_correct_form.correct }}
+                          {% csrf_token %}
+                        </form>
+                      </td>
+                      {% if item.correct == True %}
+                      <td><span class="badge badge-success">{% trans "Correct" %}</span></td>
+                      {% else %}
+                      <td><span class="badge badge-danger">{% trans "Incorrect" %}</span></td>
+                      {% endif %}
+                      <td>{{ test.value }} pts</td>
+                    </tr>
+                    {% endwith %}
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer">
+
+
+              </div>
+
+
+                <a href="{% url "accounts:profile" %}" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-gray-600">
+                      <i class="fas fa-arrow-right"></i>
+                    </span>
+                    <span class="text">{% trans "Finish the Exam"%}</span>
+                  </a>
+            </div>
+          </div>
+        </div>
+
+
+
+
+{% endblock %}

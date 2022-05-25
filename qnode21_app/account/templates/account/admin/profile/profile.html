@@ -1,0 +1,124 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/ruang-admin.css" %}" />
+{% endblock %}
+
+{% block title %}
+  Order {{ profile.id }} {{ block.super }}
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Manejo Seguro, S.A') }}</a></h1>
+{% endblock %}
+
+{% block content %}
+<h5>Ficha N. {{ profile.id }}</h5>
+<h5>Usuario: {{ profile.user }}</h5>
+<ul class="object-tools">
+  <li>
+    <a href="" >Imprimir Ficha</a>
+  </li>
+</ul>
+<table>
+  <tr>
+    <th>Fecha de inscripcion: </th>
+    <td>{{ profile.date_of_inscription}}</td>
+  </tr>
+  <tr>
+    <th>Nombre Completo: </th>
+    <td>{{ profile.name }} {{ profile.last_name }}</td>
+  </tr>
+  <tr>
+    <th>Fecha de nacimiento: </th>
+    <td>{{ profile.date_of_birth}}</td>
+  </tr>
+  <tr>
+    <th>Correo electrónico: </th>
+    <td><a href="mailto:{{ profile.email }}">{{ profile.email }}</a></td>
+  </tr>
+  <tr>
+    <th>Dirección: </th>
+    <td>{{ profile.address }}</td>
+  </tr>
+  <tr>
+    <th>Número de Cedula: </th>
+    <td>{{ profile.CI }}</td>
+  </tr>
+  <tr>
+    <th>Teléfono fijo:</th>
+    <td>{{profile.tel}}</td>
+  </tr>
+  <tr>
+    <th>Teléfono celular:</th>
+    <td>{{profile.cel}}</td>
+  </tr>
+  <tr>
+    <th>Tipo de curso:</th>
+    <td>{{profile.course_type}}</td>
+  </tr>
+</table>
+
+
+
+<div class="module">
+  <h2>Resultados de examen Aula virtual</h2>
+  <div class="tabular">
+    <table style="width:100%">
+      <thead>
+        <tr>
+            <th>#</th>
+          <th>Pregunta</th>
+          <th>Respuesta</th>
+          <th>Nota</th>
+          <th>Intentos</th>
+          <th>Resultado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in profile.items.all %}
+          <tr class="row{% cycle "1" "2" %}">
+              <td>{{item.id}}</td>
+            <td>{{ item.test.subject_test }}</td>
+            <td class="num">{{ item.test }}</td>
+            <td class="num">{{ item.value }}</td>
+            <td class="num">{{ item.correct }}</td>
+            
+            {% if item.value > 0 and item.correct < 3  %}
+                  <td>Aprobado</td>
+                  {% else %}
+                  <td>Desaprobado</td>
+                  {% endif %}
+          </tr>
+        {% endfor %}
+        <tr>
+        </tr>
+        <tr class="total">
+            <hr>
+          <td colspan="3"><h6><b>Nota Final:</b></h6></td>
+          <td class="num"><h6><b>{{ profile.get_total_results }}/20</b></h6></td>
+          <td class="num"><h6><b>{{ profile.get_total_trys }}/20</b></h6></td>
+          {% if profile.get_total_results >= 16 and profile.get_total_trys <= 90  %}
+          <td style="color:#2b44d3";><h6><b>APROBADO</b></h6></td>
+          {% else %}
+          <td style="color:#FF0000";><h6><b></b>Desaprobado</b></h6></td>
+          {% endif %}
+        </tr>
+        <tr>
+        <h8>Observaciones:
+            {% if profile.get_total_results >= 16 and profile.get_total_trys <= 90  %}
+            <p>El estudiante {{profile.name}} {{profile.last_name}} ha aprobado con exito el examen teórico de conducción. Acercarse a la escuela de conducción Manejo Seguro, para obtener su licencia de conducir. </p>
+            {% else %}
+            <p>El estudiante {{profile.name}} ha desaprobado el examen teórico de conducción. Acercarse a la escuela de conducción Manejo Seguro, para mayor información.  </p>
+            {% endif %}
+         </h8>
+        </tr>
+      </tbody>
+     
+          
+          
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,4 +1,5 @@
-{% extends "base.html" %}
+{% extends "base_dash_courses.html" %}
+{% load i18n %}
 
 {% block title %}
     {% if subject %}
@@ -9,39 +10,35 @@
 {% endblock %}
 
 {% block content %}
-<h1>
-    {% if subject %}
-        {{ subject.title }} courses
-    {% else %}
-        All courses
-    {% endif %}
-</h1>
-<div class="contents">
-    <h3>Subjects</h3>
-    <ul id="modules">
-        <li {% if not subject %}class="selected"{% endif %}>
-            <a href="{% url "course_list" %}">All</a>
-        </li>
-        {% for s in subjects %}
-            <li {% if subject == s %}class="selected"{% endif %}>
-                <a href="{% url "course_list_subject" s.slug %}">
-                    {{ s.title }}
-                    <br><span>{{ s.total_courses }} courses</span>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+
+<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+  <h6 class="m-0 font-weight-bold text-primary">{% trans "My Driving Courses" %}</h6>
 </div>
-<div class="module">
+
+<div class="table-responsive">
+  <table class="table align-items-center table-flush">
+    <thead class="thead-light">
+      <tr>
+        <th>{% trans "Course"%}</th>
+        <th>{% trans "Subject"%}</th>
+        <th>{% trans "Total Modules"%}</th>
+        <th>{% trans "Teacher"%}</th>
+      </tr>
+    </thead>
     {% for course in courses %}
-        {% with subject=course.subject %}
-            <h3><a href="{% url "course_detail" course.slug %}">{{ course.title }}</a></h3>
-            <p>
-                <a href="{% url "course_list_subject" subject.slug %}">{{ subject }}</a>.
-                {{ course.total_modules }} modules.
-                Instructor: {{ course.owner.get_full_name }}
-            </p>
-        {% endwith %}
+    {% with subject=course.subject %}
+    <tbody>
+      <tr>
+        <td><a href="{% url "course_detail" course.slug %}">{{ course.title }}</a></td>
+        <td><a href="{% url "course_list_subject" subject.slug %}">{{ subject }}</a></td>
+        <td>{{ course.total_modules }}</td>
+        <td>{{ course.owner.get_full_name }}</td>
+      </tr>
+    </tbody>
+    {% endwith %}
     {% endfor %}
+  </table>
 </div>
+
+
 {% endblock %}

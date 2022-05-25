@@ -1,0 +1,153 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="invoice.css" media="print" rel="stylesheet">
+    <title>Invoice</title>
+    <meta name="description" content="Invoice demo sample">
+  </head>
+
+  <body>
+    <h3>Ficha de alumno. N. {{profile.id}}</h3>
+
+    <aside>
+      <address id="from">
+       Nombre: {{profile.name}} 
+       Apellido:  {{profile.last_name}}
+       Fecha de nacimiento: {{profile.date_of_birth}}
+       Número de cedula: {{profile.CI}}
+       Teléfono fijo: {{profile.tel}}
+       Teléfono celular: {{profile.cel}}
+       Dirección: {{profile.adress}}
+       Correo eletrónico: {{profile.email}}
+      </address>
+
+      <address id="to">
+        Foto
+      </address>
+
+     
+    </aside>
+  
+    <dl id="informations">
+      <dt>Nombre de Usuario: </dt>
+      <dd>{{profile.user}} </dd>
+      <dt>Fecha de Inscripción:</dt>
+      <dd>{{profile.date_of_inscription}}</dd>
+      <dt>Tipo de Curso</dt>
+      <dd>{{profile.course_type}}</dd>
+    </dl>
+
+    <table style="width:100%">
+      <h3>Asistencia a clases teóricas aula virtual</h3>
+      <thead>
+        <tr>
+            <th>#</th>
+          <th>Pregunta</th>
+          <th>Respuesta</th>
+          <th>Nota</th>
+          <th>Intentos</th>
+          <th>Resultado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in profile.items.all %}
+          <tr class="row{% cycle "1" "2" %}">
+              <td>{{item.id}}</td>
+            <td>{{ item.test.subject_test }}</td>
+            <td class="num">{{ item.test }}</td>
+            <td class="num">{{ item.value }}</td>
+            <td class="num">{{ item.correct }}</td>
+            
+            {% if item.value > 0 and item.correct < 3  %}
+                  <td>Aprobado</td>
+                  {% else %}
+                  <td>Desaprobado</td>
+                  {% endif %}
+          </tr>
+        {% endfor %}
+        <tr>
+        </tr>
+      </tbody>      
+    </table>
+    
+    <table style="width:100%">
+      <h3>Resultados examen teórico aula virtual</h3>
+      <thead>
+        <tr>
+            <th>#</th>
+          <th>Pregunta</th>
+          <th>Respuesta</th>
+          <th>Nota</th>
+          <th>Intentos</th>
+          <th>Resultado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in profile.items.all %}
+          <tr class="row{% cycle "1" "2" %}">
+              <td>{{item.id}}</td>
+            <td>{{ item.test.subject_test }}</td>
+            <td class="num">{{ item.test }}</td>
+            <td class="num">{{ item.value }}</td>
+            <td class="num">{{ item.correct }}</td>
+            
+            {% if item.value > 0 and item.correct < 3  %}
+                  <td>Aprobado</td>
+                  {% else %}
+                  <td>Desaprobado</td>
+                  {% endif %}
+          </tr>
+        {% endfor %}
+        <tr>
+        </tr>
+      </tbody>  
+    </table>
+   
+    
+
+    <table id="total">
+      
+      <thead>
+        <tr>
+          <th>Resultados examen teórico</th>
+          <th>Asistencia Total</th>
+          <th>Información</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Nota Final: {{ profile.get_total_results }}/20</td>
+          <td></td>
+          <td>Escuela de conducción Manejo Seguro-Quito, S.A.</td>
+        </tr>
+      <tr>
+          <td>Intentos por examen: {{ profile.get_total_trys }}/20</td>
+          <td></td>
+          <td>Av 6 de Diciembre 56-52 y de Los Fresnos,</td>
+      </tr>  
+      {% if profile.get_total_results >= 16 and profile.get_total_trys <= 90  %}
+      <tr> 
+          <td>Resultado Final: <h8 style="color:#2b44d3";><b>APROBADO</b></h8></td>
+            {% else %}
+           <td> Resultado Final: <h8 style="color:#FF0000";><b>DESAPROBADO</b></h8></td>  
+           <td></td>
+          <td>San Isidro. Quito-Ecuado</td> 
+      </tr>
+      {% endif %}  
+
+    </tbody>
+      
+    </table>
+   
+      <tr>
+        <h9 style="font-size:8px";><b>Observaciones:
+          {% if profile.get_total_results >= 16 and profile.get_total_trys <= 90  %}
+          <p>El estudiante {{profile.name}} {{profile.last_name}} ha aprobado con exito el examen teórico de conducción. Acercarse a la escuela de conducción Manejo Seguro, para obtener su licencia de conducir. </p>
+          {% else %}
+          <p>El estudiante {{profile.name}} ha desaprobado el examen teórico de conducción. Acercarse a la escuela de conducción Manejo Seguro, para mayor información.  </p>
+          {% endif %}</b>
+       </h9>
+      </tr>
+    
+  </body>
+</html>

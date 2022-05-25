@@ -1,15 +1,22 @@
-{% extends "base.html" %}
+{% extends "base_dash_c.html" %}
+{% load i18n %}
 
-{% block title %}Delete course{% endblock %}
+{% block title %}{% trans "Delete course" %} {% endblock %}
 
 {% block content %}
-  <h1>Delete course "{{ object.title }}"</h1>
+  <h1>{% trans "Delete course" %} "{{ object.title }}"</h1>
 
   <div class="module">
     <form action="" method="post">
       {% csrf_token %}
-      <p>Are you sure you want to delete "{{ object }}"?</p>
-      <input type="submit" class"button" value="Confirm">
+      <p>{% trans "Are you sure you want to delete" %} "{{ object }}"?</p>
+      <button type="submit" value="Confirm" class="btn btn-danger btn-icon-split">
+        <span class="icon text-white-50">
+          <i class="fas fa-trash"></i>
+        </span>
+        <span class="text">{% trans "Delete" %}</span>
+     </button>
+
     </form>
   </div>
 {% endblock %}

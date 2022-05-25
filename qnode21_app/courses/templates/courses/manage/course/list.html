@@ -1,28 +1,57 @@
-{% extends "base.html" %}
+{% extends "base_dash_c.html" %}
+{% load i18n %}
 
-{% block title %}My courses{% endblock %}
+{% block title %}{% trans "My courses" %}{% endblock %}
 
 {% block content %}
-  <h1>My courses</h1>
-
+  <h1>{% trans "My Driving Courses" %} &nbsp; &nbsp; &nbsp; &nbsp;
+  <a href="{% url "course_create" %}" class="btn btn-success btn-icon-split" >
+    <span class="icon text-white-50">
+      <i class="fas fa-car"></i>
+    </span>
+    <span class="text">{% trans "Create new course" %}</span>
+  </a>
+  </h1>
+  <br>
   <div class="module">
     {% for course in object_list %}
+
       <div class="course-info">
-        <h3>{{ course.title }}</h3>
-        <p>
-          <a href="{% url "course_edit" course.id %}">Edit</a>
-          <a href="{% url "course_delete" course.id %}">Delete</a>
-          <a href="{% url "course_module_update" course.id %}">Edit modules</a>
+
+          <a href="{% url "course_edit" course.id %}" class="card btn btn-outline-secundary mb-1">
+            <div class="card-body">
+              <h3 class="text-black-50">{{ course.title }}</h3>
+              <div class="text-black-50 small">{{ course.subject }}</div>
+            </div>
+          </a>
+
+          <a href="{% url "course_module_update" course.id %}" class="btn btn-primary btn-icon-split">
+            <span class="icon text-gray-600">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+            <span class="text">{% trans "Edit modules" %}</span>
+          </a>
           {% if course.modules.count > 0 %}
-            <a href="{% url "module_content_list" course.modules.first.id %}">Manage contents</a>
+          <a href="{% url "module_content_list" course.modules.first.id %}" class="btn btn-primary btn-icon-split">
+            <span class="icon text-white-50">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+            <span class="text">{% trans "Manage contents" %}</span>
+          </a>
           {% endif %}
+          <a href="{% url "course_delete" course.id %}" class="btn btn-danger btn-icon-split">
+            <span class="icon text-white-50">
+              <i class="fas fa-trash"></i>
+            </span>
+            <span class="text">{% trans "Delete" %}</span>
+          </a>
         </p>
       </div>
     {% empty %}
-      <p>You haven't created any courses yet.</p>
+      <p>{% trans "You haven't created any courses yet." %}"</p>
     {% endfor %}
     <p>
-      <a href="{% url "course_create" %}" class="button">Create new course</a>
+
     </p>
   </div>
 {% endblock %}

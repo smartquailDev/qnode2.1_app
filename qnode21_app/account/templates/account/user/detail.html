@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_dash_users.html" %}
 {% load thumbnail %}
 
 {% block title %}{{ user.get_full_name }}{% endblock %}
@@ -6,53 +6,49 @@
 {% block content %}
   <h1>{{ user.get_full_name }}</h1>
   <div class="profile-info">
-    {% thumbnail user.profile.photo "180x180" crop="100%" as im %}
-      <img src="{{ im.url }}" class="user-detail">
-    {% endthumbnail %}
+    <div class="mb-3">
+      <div class="small text-gray-500">Oblong T-Shirt
+        <div class="small float-right"><b>600 of 800 Items</b></div>
+      </div>
+      <div class="progress" style="height: 12px;">
+        <div class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="80"
+          aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="small text-gray-500">Gundam 90'Editions
+        <div class="small float-right"><b>500 of 800 Items</b></div>
+      </div>
+      <div class="progress" style="height: 12px;">
+        <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="70"
+          aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="small text-gray-500">Rounded Hat
+        <div class="small float-right"><b>455 of 800 Items</b></div>
+      </div>
+      <div class="progress" style="height: 12px;">
+        <div class="progress-bar bg-danger" role="progressbar" style="width: 55%" aria-valuenow="55"
+          aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="small text-gray-500">Indomie Goreng
+        <div class="small float-right"><b>400 of 800 Items</b></div>
+      </div>
+      <div class="progress" style="height: 12px;">
+        <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50"
+          aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+  </div>
   </div>
   {% with total_followers=user.followers.count %}
     <span class="count">
       <span class="total">{{ total_followers }}</span>
       follower{{ total_followers|pluralize }}
     </span>
-    <a href="#" data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow" class="follow button">
-      {% if request.user not in user.followers.all %}
-        Follow
-      {% else %}
-        Unfollow
-      {% endif %}
-    </a>
-    <div id="image-list" class="image-container">
-      {% include "images/image/list_ajax.html" with images=user.images_created.all %}
-    </div>
+
+
   {% endwith %}
-{% endblock %}
-
-{% block domready %}
-  $('a.follow').click(function(e){
-    e.preventDefault();
-    $.post('{% url "user_follow" %}',
-      {
-        id: $(this).data('id'),
-        action: $(this).data('action')
-      },
-      function(data){
-        if (data['status'] == 'ok') {
-          var previous_action = $('a.follow').data('action');
-
-          // toggle data-action
-          $('a.follow').data('action',
-            previous_action == 'follow' ? 'unfollow' : 'follow');
-          // toggle link text
-          $('a.follow').text(
-            previous_action == 'follow' ? 'Unfollow' : 'Follow');
-
-          // update total followers
-          var previous_followers = parseInt(
-            $('span.count .total').text());
-          $('span.count .total').text(previous_action == 'follow' ? previous_followers + 1 : previous_followers - 1);
-        }
-      }
-    );
-  });
 {% endblock %}

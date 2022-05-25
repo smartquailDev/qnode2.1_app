@@ -1,0 +1,28 @@
+{% extends "base_dash_exams.html" %}
+{% load static %}
+
+{% block title %}
+  {% if subject_test %}{{ subject_test.slug }}{% else %}{{ subject_test.slug }}{% endif %}
+{% endblock %}
+
+{% block content %}
+  <div id="sidebar">
+  </div>
+  <div id="main" class="product-list">
+
+    <h1>{% if category %}{{ subject_test.title }}{% else %}{{subject_test.title}}{% endif %}{{SubjectTest.title}}</h1>
+    <h5>Opciones de respuesta:</h5>
+    {% for test in tests %}
+
+    <div class="card-body" >
+      <div class="item">
+        <a href="{{ test.get_absolute_url }}">
+          <img style="border-radius:50%; width:90px;" src="{% if test.image %}{{ test.image.url }}{% else %}{% endif %}">
+        </a>
+
+        <a href="{{ test.get_absolute_url }}"  ><button type="button" class="btn btn-primary mb-3" ><span style="inline-block">{{ test.question }}</span></button></a>
+  </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

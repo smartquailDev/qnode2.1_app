@@ -9,8 +9,56 @@ from django.contrib.auth.models import User
 from common.decorators import ajax_required
 from actions.utils import create_action
 from actions.models import Action
-from .forms import LoginForm, UserRegistrationForm,UserEditForm, ProfileEditForm
-from .models import Profile, Contact
+from .forms import LoginForm, UserRegistrationForm,UserEditForm, ProfileEditForm, ProfileCreateForm
+from .models import Profile, Contact, Exams_resultsItems
+from cart.cart import Cart
+from .task import exams_results_create
+from django.contrib.admin.views.decorators import staff_member_required
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+import weasyprint
+
+
+@login_required
+def profile_create(request):
+    cart = Cart(request)
+    if request.method == "POST":
+        #name = request.POST.get('name')
+        form = ProfileCreateForm(instance=request.user.profile ,data=request.POST)
+        if form.is_valid():
+            profile = form.save()
+            for item in cart:
+                Exams_resultsItems.objects.create(profile = profile,
+                                                  test = item['test'],
+                                                  value= item['value'],
+                                                  correct = item['correct'])
+            cart.clear()
+            exams_results_create.delay(profile.id)
+            return render(request, 'account/user/exams_results.html', {'profile':profile})
+    else:
+        form = ProfileCreateForm()
+    return render(request,'account/user/exams_results_create.html',{'cart':cart, 'form':form})
+
+
+
+
+@staff_member_required
+def admin_profile_detail(request, profile_id):
+    profile = get_object_or_404(Profile, id=profile_id)
+    return render(request, 'account/admin/profile/profile.html', {'profile':profile})
+
+@staff_member_required
+def admin_profile_pdf(request, profile_id):
+    profile = get_object_or_404(Profile, id=profile_id)
+    html = render_to_string('account/admin/profile/pdf.html', {'profile':profile})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename=order_{}.pdf"'.format(profile.id)
+    weasyprint.HTML(string=html,  base_url=request.build_absolute_uri() ).write_pdf(response,stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + '/css/pdf.css')], presentational_hints=True)
+    return response
+
+
+
 
 
 def user_login(request):

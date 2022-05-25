@@ -1,0 +1,51 @@
+{% extends "base_dash_c.html" %}
+{% load static %}
+
+{% block title %}
+  Your shopping cart
+{% endblock %}
+
+{% block content %}
+  <h1>Your shopping cart</h1>
+  <table class="cart">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Remove</th>
+        <th>Unit price</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart %}
+        {% with test=item.test %}
+          <tr>
+            <td>
+    asdfs
+            </td>
+            <td>{{ test.title }}</td>
+            <td>
+              <form action="{% url "cart:cart_add" test.id %}" method="post">
+                {{ item.update_correct_form.quantity }}
+                {{ item.update_correct_form.update }}
+                <input type="submit" value="Update">
+                {% csrf_token %}
+              </form>
+            </td>
+            <td><a href="{% url "cart:cart_remove" test.id %}">Remove</a></td>
+            <td class="num">${{ item.value }}</td>
+            <td class="num">${{ item.total_value }}</td>
+          </tr>
+        {% endwith %}
+      {% endfor %}
+      <tr class="total">
+        <td>Total</td>
+        <td colspan="4"></td>
+        <td class="num">${{ cart.get_total_price }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+{% endblock %}

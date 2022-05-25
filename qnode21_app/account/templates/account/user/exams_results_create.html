@@ -1,0 +1,96 @@
+{% extends "base_dash_exams.html" %}
+{% load i18n %}
+
+
+
+
+{% block content %}
+
+
+  <div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">{% block title %} {% trans "Final Exams Results" %}{% endblock %}</h1>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="./">Home</a></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active" aria-current="page"></li>
+      </ol>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 mb-4">
+        <!-- Simple Tables -->
+        <div class="card">
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Results Card</h6>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th>{% trans "Question "%}</th>
+                  <th>{% trans "Answer"%}</th>
+                  <th>{% trans "Results" %}</th>
+                  <th>{% trans "Grade" %}</th>
+                  <th>{% trans "Trys" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in cart %}
+                <tr>
+                  <td>{{ item.test.subject_test }}</td>
+                  <td>{{ item.test }}</td>
+                  {% if item.value > 0 %}
+                  <td><a href="#" class="btn btn-sm btn-primary">{% trans " Aprove "%}</a></td>
+                  {% else %}
+                  <td><a href="#" class="btn btn-sm btn-secondary ">{% trans "Desaprove" %}</a></td>
+                  {% endif %}
+                  <td>{{ item.value }}</td>
+                  <td>{{ item.correct }}</td>
+
+                </tr>
+                {% endfor %}
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td> Total:</td>
+                  <td>{{ cart.get_total_value }}/20</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <div class="card-footer"></div>
+        </div>
+      </div>
+    </div>
+    <!--Row-->
+
+    <!-- Modal Logout -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to logout?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+            <a href="login.html" class="btn btn-primary">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+{% endblock %}

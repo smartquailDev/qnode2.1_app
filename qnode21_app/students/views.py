@@ -13,7 +13,7 @@ from .forms import CourseEnrollForm
 class StudentRegistrationView(CreateView):
     template_name = 'students/student/registration.html'
     form_class = UserCreationForm
-    success_url = reverse_lazy('student_course_list')
+    success_url = reverse_lazy('students:student_course_list')
 
     def form_valid(self, form):
         result = super(StudentRegistrationView,
@@ -36,7 +36,7 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
                      self).form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('student_course_detail',
+        return reverse_lazy('students:student_course_detail',
                             args=[self.course.id])
 
 
@@ -68,5 +68,5 @@ class StudentCourseDetailView(DetailView):
                                     id=self.kwargs['module_id'])
         else:
             # get first module
-            context['module'] = course.modules.all()[0]
+            context['module'] = course.modules.all()[0:10]
         return context

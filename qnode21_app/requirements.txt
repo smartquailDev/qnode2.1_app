@@ -38,3 +38,7 @@ weasyprint
 django-braces
 django-embed-video
 django-memcache-status
+
+#lenguaje
+rosseta
+parler

@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     'baton',
     'account',
     'courses',
+    'courses_exams',
+    'card_test',
+    'thumbnails',
+    'cart',
    
     'django.contrib.contenttypes',
     'django.contrib.admin',
@@ -77,14 +81,17 @@ INSTALLED_APPS = [
     #'cart',
     #'orders',
     #'payment',
+    'django_phonenumbers',
+    'phonenumber_field',
     'storages',
     'social_django',
+    'easy_thumbnails',
     'sorl.thumbnail',
     'students',
     'embed_video',
     'actions',
     'baton.autodiscover',   
-    'memcache_status',
+    #'memcache_status',
     'rest_framework'
 ]
 
@@ -94,9 +101,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',
+    #'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
+    #'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -139,9 +146,12 @@ REDIS_DB =os.environ.get('REDIS_DB')
 
 #LOGINGS REDIRECT
 
-LOGIN_REDIRECT_URL = 'dashboard'
+#LOGIN_REDIRECT_URL = 'accounts:dashboard'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
+
+from django.urls import reverse_lazy
+LOGIN_REDIRECT_URL = reverse_lazy('course_list')
 
 BATON = {
     'SITE_HEADER': 'SmartQuail',
@@ -300,16 +310,7 @@ if DB_IS_AVIAL and POSTGRES_READY:
 }
 
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
-}
 
-CACHE_MIDDLEWARE_ALIAS = 'default'
-CACHE_MIDDLEWARE_SECONDS = 60 * 15  # 15 minutes
-CACHE_MIDDLEWARE_KEY_PREFIX = 'qnode21_app'
 
 
 
