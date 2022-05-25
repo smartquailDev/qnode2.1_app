@@ -23,7 +23,7 @@ django-widget-tweaks
 kombu==5.2.2
 easy-thumbnails==2.8
 django-thumbnails
-django-phonenumber-field
+django-phonenumber-field[phonenumbers]
 
 
 boto3
