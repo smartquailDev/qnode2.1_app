@@ -86,7 +86,7 @@ INSTALLED_APPS = [
     'storages',
     #'social_django',
     'easy_thumbnails',
-    'sorl-thumbnail',
+    'sorl.thumbnail',
     'students',
     'embed_video',
     'actions',
