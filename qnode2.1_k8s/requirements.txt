@@ -3,7 +3,7 @@ django-baton
 #Wagtail
 wagtail==2.16.2
 
-django-social-share
+#django-social-share
 wagtailgmaps
 wagalytics==1.3
 requests
@@ -31,7 +31,7 @@ boto3
 PyOpenSSL
 python-dotenv
 djangorestframework
-python-memcached
+#python-memcached
 
 #Ecommerce
 braintree
