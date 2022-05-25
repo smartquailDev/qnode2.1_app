@@ -16,7 +16,7 @@ psycopg2-binary
 django-storages
 
 #Django Web App dependencies
-social-django
+
 django-social-auth
 social-auth-app-django
 sorl-thumbnail
