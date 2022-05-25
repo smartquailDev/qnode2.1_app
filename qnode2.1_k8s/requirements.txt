@@ -22,6 +22,7 @@ sorl-thumbnail
 django-widget-tweaks
 kombu==5.2.2
 easy-thumbnails==2.8
+django-thumbnails
 
 
 boto3
