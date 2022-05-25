@@ -82,7 +82,7 @@ INSTALLED_APPS = [
     #'orders',
     #'payment',
     'django_phonenumbers',
-    #'phonenumber_field',
+    'phonenumber_field',
     'storages',
     'social_django',
     'easy_thumbnails',
