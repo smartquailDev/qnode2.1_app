@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
-from phonenumber_field.modelfields import PhoneNumberField
+#from phonenumber_field.modelfields import PhoneNumberField
 from parler.models import TranslatableModel, TranslatedFields
 from django.utils.translation import gettext_lazy as _
 from courses_exams.models import Test
@@ -23,8 +23,8 @@ class Profile(models.Model):
     CI = models.IntegerField(_('Número de Cedula'),null=True,blank=True)
     adress = models.CharField(_('Dirección'),max_length= 200,null=True,blank=True)
     email = models.EmailField(_('Correo Electrónico'),max_length=254,null=True,blank=True)
-    tel =  PhoneNumberField(_('Número de Telefono'),null=True,blank=True)
-    cel =  PhoneNumberField(_('Número de Celular'),null=True,blank=True)
+    tel =  models.BigIntegerField(_('Número de Telefono'),null=True,blank=True)
+    cel =  models.BigIntegerField(_('Número de Celular'),null=True,blank=True)
     course_type  = models.CharField(_('Tipo de Curso a Tomar'),max_length=1, choices=OPCIONES_TIPO,null=True,blank=True)
     date_of_birth = models.DateField(_('Fecha de Nacimiento'), null=True)
     photo = models.ImageField(_('Foto de Perfil'),upload_to='users/%Y/%m/%d/', blank=True)
