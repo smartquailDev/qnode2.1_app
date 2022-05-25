@@ -32,7 +32,7 @@ RUN python -m venv /py && \
     apk add libffi-dev build-base py3-cffi py3-cryptography && \
     apk add jpeg-dev   zlib-dev libjpeg build-base  wget  && \
     apk --update --upgrade --no-cache add fontconfig ttf-freefont font-noto terminus-font && \
-    apk add gtk+3.0 pango py3-reportlab && \
+    apk add gtk+3.0 pango py3-reportlab libart-lgpl && \
     apk del libressl-dev && \
     apk add busybox-extras && \
     apk add openssl-dev && \
