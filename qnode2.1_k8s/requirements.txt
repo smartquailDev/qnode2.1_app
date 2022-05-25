@@ -16,12 +16,12 @@ psycopg2-binary
 django-storages
 
 #Django Web App dependencies
-#django-social-auth
+django-social-auth
 #social-auth-app-django
-#sorl-thumbnail
-#django-widget-tweaks
-#kombu==5.2.2
-#easy-thumbnails==2.8
+sorl-thumbnail
+django-widget-tweaks
+kombu==5.2.2
+easy-thumbnails==2.8
 #django-thumbnails
 #reportlab
 
