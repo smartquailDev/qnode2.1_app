@@ -23,7 +23,7 @@ django-widget-tweaks
 kombu==5.2.2
 easy-thumbnails==2.8
 django-thumbnails
-django-phonenumber-field[phonenumbers]
+
 
 
 boto3
@@ -44,6 +44,6 @@ django-memcache-status
 
 #Lenguajes
 django-parler
-django-extensions
+#django-extensions
 django-localflavor
 django-rosetta
