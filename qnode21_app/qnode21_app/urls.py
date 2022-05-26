@@ -22,7 +22,7 @@ urlpatterns = [
     #path('payment/', include('payment.urls', namespace='payment')),
     #path('shop/', include('shop.urls', namespace='shop')),
     #Eduaction Platform
-    #path(_('cart/'), include('cart.urls', namespace='cart')),
+    path('cart/', include('cart.urls', namespace='cart')),
     path('courses_exams/', include('courses_exams.urls', namespace='courses_exams')),
     path('api/', include('courses.api.urls', namespace='api')),
     path('social-auth/', include('social_django.urls', namespace='social')),
@@ -34,6 +34,7 @@ urlpatterns = [
     path('MyCourses/', CourseListView.as_view(),name='course_list'),
     path('students/',include('students.urls',namespace='students')),
     path('profile/', include('account.urls',namespace='profile')),
+ 
     
      
     re_path(r'^smartbusinessmedia/', include(wagtailadmin_urls),name='wagtail'),
